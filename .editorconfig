@@ -1,0 +1,15 @@
+# top-most EditorConfig file
+root = true
+
+
+# Matches multiple files with brace expansion notation
+# Set default charset
+[*.{js,py,html}]
+charset = utf-8
+
+
+[*.{js,jsx,ts,tsx,vue,scss,json,yml,css,less}]
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+insert_final_newline = true
