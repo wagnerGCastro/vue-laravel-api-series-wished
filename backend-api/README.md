@@ -17,6 +17,12 @@ $ npm install
 ```
 ## Iniciar o Projeto
 
+0-) Gerar uma chave key 
+
+``` bash
+$  php artisan key:generate
+```
+
 1-) Configurar banco de dados no arquivo .env na raiz do projeto, conforme as configurações do seu bando de dados.
 
 #### 
@@ -53,7 +59,7 @@ Após ter gerado a chave, aparecerá no arquivo .env uma chave semelhante a esta
 
 #### 
 ``` txt
-  $ php artisan serve
+  $ php artisan server --port=8010
 ```
 
 5 -) Agora já é possível testar a API, veja as rotas abaixo:
