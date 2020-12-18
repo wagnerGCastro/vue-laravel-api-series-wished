@@ -18,8 +18,9 @@ module.exports = {
     'space-before-function-paren': ['error', {
       'anonymous': 'never',
       'named': 'never',
-      'asyncArrow': 'never'
+      'asyncArrow': 'never',
     }],
+    'semi': ["error", "never"]
     // 'padded-blocks': ["error", { "blocks": "always" }],
   }
 }
