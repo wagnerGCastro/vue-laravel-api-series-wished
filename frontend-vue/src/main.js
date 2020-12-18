@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VueResource from 'vue-resource'
 
 import 'bootstrap/scss/bootstrap.scss'
 
@@ -18,6 +19,13 @@ import store from './store'
 console.log('jquery -> ', jQuery.fn.jquery)
 
 Vue.config.productionTip = false
+
+/**
+ * Http Config
+ */
+Vue.use(VueResource)
+const http = Vue.http
+http.options.root = 'http://127.0.0.1:8010/api'
 
 new Vue({
     router,

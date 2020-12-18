@@ -18,6 +18,8 @@
 </template>
 
 <script>
+/* eslint-disable */
+
 // import { mapActions } from "vuex";
 
 export default {
@@ -38,16 +40,26 @@ export default {
         //     alert(err.data ? err.data.message : "Não foi possível fazer login");
         //   }
         // },
-        async submit(e) {
+        
+        submit(e) {
+
+            /**
+             * https://www.twilio.com/blog/5-ways-to-make-http-requests-in-node-js-using-async-await
+             */
+
             console.log(this.form.email)
             console.log(this.form.password)
-            // try {
-            //     await this.ActionDoLogin(this.form)
 
-            //     // this.$router.push({ name: 'home' })
-            // } catch (err) {
-            //     // alert(err.data ? err.data.message : 'Não foi possível fazer login')
-            // }
+            /** 
+             * Sem Async Wait
+             */
+            this.$http.post(this.$http.options.root+'/auth/login', this.form).then(response => {
+                console.log(response.body)
+            }, response => {
+                // error callback
+                console.log(response)
+            })
+
         }
     }
 }
