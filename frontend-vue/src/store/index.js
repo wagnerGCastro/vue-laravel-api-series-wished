@@ -24,7 +24,14 @@ export default new Vuex.Store({
     getters: {
         doneTodos: state => {
             return state.todos.filter(todo => todo.done)
-        }
+        },
+
+        doneTodosCount(state) {
+            return state.todos.filter(todo => todo.done).length
+        },
+
+        counter: state => state.count,
+        todos: state => state.todos
     },
     /**
      * Exuta dados de forma sincrona, recomendado para alterar o estado da Aplicação
@@ -38,7 +45,10 @@ export default new Vuex.Store({
         // }
 
         increment: state => state.count++,
-        decrement: (state, num) => state.count--
+        decrement: (state, num) => {
+            console.log('decrementAction', num)
+            state.count--
+        }
     },
     /**
      * Recomendo para buscas do Servidor, API. Dispara acoes asincronas
@@ -48,8 +58,21 @@ export default new Vuex.Store({
         //     context.dispatch('SET_TOKEN', token)
         // }
 
-        decrement: context => context.commit('increment'),
-        increment: ({ commit }) => commit('increment')
+        decrement: context => context.commit('decrement'),
+        increment: ({ commit }) => commit('increment'),
+
+        incrementAction: context => context.commit('increment'),
+
+        /** Simulando uma chamada para API  */
+        decrementAction: ({ commit }) => {
+            // Algoritmo da API
+
+            // Apos o resultado da API, passando um parametro
+            setTimeout(() => {
+                //
+                commit('decrement', 4)
+            }, 2000)
+        }
     },
     modules: {
     }
