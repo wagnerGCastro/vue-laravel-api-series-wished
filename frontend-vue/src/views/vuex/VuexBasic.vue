@@ -6,11 +6,31 @@
             <div class="row">
                 <div class="col-md-4">
                     <div style="border: 1px solid #ccc; padding: 10px 0 15px"  class="list-group pl-2 pr2">
-                        <h2>Count</h2>
+                        <h2>Count Methods </h2>
                         <div class="d-flex justify-content-center">
                             <button @click="decrementar" type="button" class=""> - </button>
-                            <span style="padding: 0 10px; font-size: 30px"> {{ this.$store.state.count }} </span>
+                            <span style="padding: 0 10px; font-size: 30px"> {{ this.counter }} </span>
                             <button @click="incrementar"  type="button" class=""> + </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div style="border: 1px solid #ccc; padding: 10px 0 15px"  class="list-group pl-2 pr2">
+                        <h2>Count mapMutations</h2>
+                        <div class="d-flex justify-content-center">
+                            <button @click="decrement" type="button" class=""> - </button>
+                            <span style="padding: 0 10px; font-size: 30px"> {{ this.counter }} </span>
+                            <button @click="increment"  type="button" class=""> + </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div style="border: 1px solid #ccc; padding: 10px 0 15px"  class="list-group pl-2 pr2">
+                        <h2>Count mapAcions</h2>
+                        <div class="d-flex justify-content-center">
+                            <button @click="decrementAction" type="button" class=""> - </button>
+                            <span style="padding: 0 10px; font-size: 30px"> {{ this.counter }} </span>
+                            <button @click="incrementAction"  type="button" class=""> + </button>
                         </div>
                     </div>
                 </div>
@@ -37,9 +57,11 @@
 
 <script>
 
-export default {
-    name: 'Home',
+// import { mapState, mapMutations } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 
+export default {
+    name: 'VuexBasic',
     data: function() {
         return {
             todos: this.$store.getters.doneTodos
@@ -60,11 +82,26 @@ export default {
         console.log(this.$store.state.count) // -> 1
     },
     computed: {
-        doneTodosCount() {
-            return this.$store.state.todos.filter(todo => todo.done).length
-        }
+
+        // Esta funçào foi subistituido pela debaixo  ...mapGetters
+        // doneTodosCount() {
+        //     return this.$store.state.todos.filter(todo => todo.done).length
+        // },
+
+        // ...mapState({
+        //     counter: state => state.count,
+        //     todos: state => state.todos
+        // }),
+
+        ...mapGetters([
+            'counter',
+            'todo',
+            'doneTodos',
+            'doneTodosCount'
+        ])
     },
     methods: {
+        /** Estas funcoes foram substituidas pelas debaixo */
         incrementar() {
             console.log(this.$store.state.count)
             this.$store.commit('increment')
@@ -74,7 +111,17 @@ export default {
             console.log(this.$store.state.count)
             this.$store.commit('decrement')
             console.log(this.$store.state.count)
-        }
+        },
+
+        ...mapMutations([
+            'decrement',
+            'increment'
+        ]),
+
+        ...mapActions([
+            'decrementAction',
+            'incrementAction'
+        ])
     }
 }
 </script>
