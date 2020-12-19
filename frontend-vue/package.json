@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "./node_modules/.bin/vue-cli-service serve --port 3007 --modern",
+    "build": "./node_modules/.bin/vue-cli-service build --modern",
+    "lint": "./node_modules/.bin/vue-cli-service lint --modern"
   },
   "dependencies": {
     "animate.css": "^4.1.1",

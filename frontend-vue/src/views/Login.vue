@@ -20,7 +20,7 @@
 <script>
 /* eslint-disable */
 
-// import { mapActions } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
     data: () => ({
@@ -29,8 +29,19 @@ export default {
             password: ''
         }
     }),
+
+    created() {
+        // Executa a Action e Chama Mutation e altera o State.User
+        // this.actionSetUser({ name: 'Wagner G. de Castro', email: 'wagner@gmail.com' })
+    },
+
+    mounted() {
+          console.log('token', this.$store.state) // -> 1
+          console.log('user', this.$store.state.user) // -> 1
+    },
+
     methods: {
-        // ...mapActions("auth", ["ActionDoLogin"]),
+        ...mapActions(['actionSetUser','actionDoLogin']),
         // async submit() {
         //   try {
         //     await this.ActionDoLogin(this.form);
@@ -55,6 +66,7 @@ export default {
              */
             this.$http.post(this.$http.options.root+'/auth/login', this.form).then(response => {
                 console.log(response.body)
+                this.actionDoLogin(response.body)
             }, response => {
                 // error callback
                 console.log(response)
@@ -64,7 +76,6 @@ export default {
     }
 }
 </script>
-
 
 
 <style scoped lang="scss">

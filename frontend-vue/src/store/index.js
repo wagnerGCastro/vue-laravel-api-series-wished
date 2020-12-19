@@ -3,11 +3,16 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-// https://www.youtube.com/watch?v=qq8yJmXys6U
+/**
+ * https://vuex.vuejs.org/ptbr/guide/mutations.html
+ *  https://www.youtube.com/watch?v=qq8yJmXys6U
+ */
 
-/** Types */
-// export const SET_USER = 'SET_USER'
-// export const SET_TOKEN = 'SET_TOKEN'
+/** 
+ *  Mutation Types
+ */
+export const SET_USER = 'SET_USER'
+export const SET_TOKEN = 'SET_TOKEN'
 
 export default new Vuex.Store({
     state: {
@@ -35,14 +40,18 @@ export default new Vuex.Store({
     },
     /**
      * Exuta dados de forma sincrona, recomendado para alterar o estado da Aplicação
+     * 
+     * Mutações Devem Ser Síncronas
+     *  https://vuex.vuejs.org/ptbr/guide/mutations.html#mutacoes-devem-ser-sincronas
      */
     mutations: {
-        // [SET_TOKEN] (state, token) {
-        //     state.token = token
-        // },
-        // [SET_USER] (state, payload) {
-        //     state.token = payload
-        // }
+        [SET_TOKEN](state, token) {
+            console.log(token)
+            state.token = token
+        },
+        [SET_USER](state, payload) {
+            state.user = payload
+        },
 
         increment: state => state.count++,
         decrement: (state, num) => {
@@ -72,6 +81,16 @@ export default new Vuex.Store({
                 //
                 commit('decrement', 4)
             }, 2000)
+        },
+
+        actionDoLogin: ({ commit }, payload) => {
+            console.log('payload', payload)
+            commit('SET_TOKEN', payload.access_token)
+            commit('SET_USER', payload.token_type)
+        },
+
+        actionSetUser: ({ commit }, payload) => {
+            commit(SET_USER, payload)
         }
     },
     modules: {

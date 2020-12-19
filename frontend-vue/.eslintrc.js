@@ -20,7 +20,8 @@ module.exports = {
       'named': 'never',
       'asyncArrow': 'never',
     }],
-    'semi': ["error", "never"]
+    'semi': ["error", "never"],
+    'no-trailing-spaces': ["error", { "ignoreComments": true }]
     // 'padded-blocks': ["error", { "blocks": "always" }],
   }
 }
