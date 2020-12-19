@@ -1,23 +1,28 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { http } from '@/config/http'
 
 Vue.use(Vuex)
 
 /**
  * https://vuex.vuejs.org/ptbr/guide/mutations.html
  *  https://www.youtube.com/watch?v=qq8yJmXys6U
+ * 
+ * https://morioh.com/p/4bb19aa8ea3e
  */
 
 /** 
  *  Mutation Types
  */
-export const SET_USER = 'SET_USER'
-export const SET_TOKEN = 'SET_TOKEN'
+const SET_USER = 'SET_USER'
+const SET_TOKEN = 'SET_TOKEN'
+const SET_EXPIRES = 'SET_EXPIRES'
 
 export default new Vuex.Store({
     state: {
         user: {},
         token: '',
+        expires: '',
         count: 0,
         todos: [
             { id: 1, text: 'Nome 1', done: true },
@@ -49,11 +54,17 @@ export default new Vuex.Store({
             console.log(token)
             state.token = token
         },
+
         [SET_USER](state, payload) {
             state.user = payload
         },
 
+        [SET_EXPIRES](state, payload) {
+            state.expires = payload
+        },
+
         increment: state => state.count++,
+
         decrement: (state, num) => {
             console.log('decrementAction', num)
             state.count--
@@ -83,14 +94,29 @@ export default new Vuex.Store({
             }, 2000)
         },
 
-        actionDoLogin: ({ commit }, payload) => {
-            console.log('payload', payload)
-            commit('SET_TOKEN', payload.access_token)
-            commit('SET_USER', payload.token_type)
+        actionDoLogin: ({ dispatch }, payload) => {
+            // console.log('actionDoLogin', payload)
+            // console.log('http', http)
+
+            return http.post(http.options.root + '/auth/login', payload).then(resp => {
+                // console.log(resp.body)
+                dispatch('actionSetExpires', resp.body.expires_in)
+                dispatch('actionSetToken', resp.body.access_token)
+            })
         },
 
         actionSetUser: ({ commit }, payload) => {
             commit(SET_USER, payload)
+        },
+
+        actionSetExpires: ({ commit }, payload) => {
+            commit(SET_EXPIRES, payload)
+        },
+
+        actionSetToken: ({ commit }, payload) => {
+            // storage.setLocalToken(payload)
+            // storage.setHeaderToken(payload)
+            commit(SET_TOKEN, payload)
         }
     },
     modules: {
