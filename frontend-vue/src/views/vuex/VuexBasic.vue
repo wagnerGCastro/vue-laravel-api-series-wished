@@ -56,11 +56,8 @@
 </template>
 
 <script>
-import { SET_USER } from '@/store'
 // import { mapState, mapMutations } from 'vuex'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
-
-console.log(SET_USER)
 
 export default {
     name: 'VuexBasic',

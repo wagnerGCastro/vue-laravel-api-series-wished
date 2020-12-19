@@ -5,7 +5,7 @@
                 <div class="card-header">Login</div>
                 <div class="card-body">
                     <div class="form-group">
-                        <input required  type="email" v-model="form.email" class="form-control" placeholder="E-mail" />
+                        <input required  type="text" v-model="form.email" class="form-control" placeholder="E-mail" />
                     </div>
                     <div class="form-group">
                         <input required type="password" placeholder="Senha" class="form-control" v-model="form.password" />
@@ -20,6 +20,7 @@
 <script>
 /* eslint-disable */
 
+import { services  } from  '@/config/http'
 import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -36,8 +37,8 @@ export default {
     },
 
     mounted() {
-          console.log('token', this.$store.state) // -> 1
-          console.log('user', this.$store.state.user) // -> 1
+        // console.log('token', this.$store.state)
+        // console.log('user', this.$store.state.user)
     },
 
     methods: {
@@ -52,26 +53,37 @@ export default {
         //   }
         // },
         
-        submit(e) {
+        async submit(e) {
 
             /**
              * https://www.twilio.com/blog/5-ways-to-make-http-requests-in-node-js-using-async-await
              */
 
-            console.log(this.form.email)
-            console.log(this.form.password)
+            // console.log(this.form.email)
+            // console.log(this.form.password)
 
             /** 
-             * Sem Async Wait
+             * Sem Async Wait, sem As action do Store Vuex
              */
-            this.$http.post(this.$http.options.root+'/auth/login', this.form).then(response => {
-                console.log(response.body)
-                this.actionDoLogin(response.body)
-            }, response => {
-                // error callback
-                console.log(response)
-            })
+            // this.$http.post(this.$http.options.root+'/auth/login', this.form).then(response => {
+            //     console.log(response.body)
+            //     this.actionDoLogin(response.body)
+            // }, response => {
+            //     // error callback
+            //     console.log(response)
+            // })
 
+            /** 
+             * Com Async Wait, sem As action do Store Vuex
+             */
+            try {
+                await this.actionDoLogin(this.form)
+                // this.$router.push({ name: 'home' })
+            } catch (error) {
+                // console.log(error);
+                alert(error.data ? error.data.message : 'Não foi possível fazer login')
+            }
+           
         }
     }
 }
