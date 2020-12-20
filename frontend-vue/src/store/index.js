@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { http } from '@/config/http'
+import { storage } from '@/services'
 
 Vue.use(Vuex)
 
@@ -41,7 +42,9 @@ export default new Vuex.Store({
         },
 
         counter: state => state.count,
-        todos: state => state.todos
+        todos: state => state.todos,
+        getUser: state => state.user,
+        hasToken: ({ token }) => !!token
     },
     /**
      * Exuta dados de forma sincrona, recomendado para alterar o estado da Aplicação
@@ -94,14 +97,62 @@ export default new Vuex.Store({
             }, 2000)
         },
 
-        actionDoLogin: ({ dispatch }, payload) => {
-            // console.log('actionDoLogin', payload)
-            // console.log('http', http)
+        actionCheckToken: ({ dispatch, state }) => {
+            if (state.token) {
+                return Promise.resolve(state.token)
+            }
 
+            const token = storage.getToken()
+
+            if (!token) {
+                return Promise.reject(new Error('[107] - actionCheckToken: Token Inválido'))
+            }
+
+            return dispatch('actionLoadSession', token)
+        },
+
+        actionLoadSession: ({ dispatch }, token) => {
+            /* eslint-disable */
+            return new Promise(async(resolve, reject) => {
+                try {
+                    const { data: { message } } = await http.get(http.options.root + '/auth/me', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                    dispatch('actionSetUser', message)
+                    dispatch('actionSetToken', token)
+                    storage.saveToken(token)
+                    resolve()
+                } catch (err) {
+                    dispatch('actionSignOut')
+                    alert('[128] actionLoadSession', err.message)
+                    reject(err)
+                }
+            })
+
+            // http.get(http.options.root + '/auth/me', {
+            //     headers: {
+            //         'Authorization': `Bearer ${token}`
+            //     }
+            // })
+            // .then(response => { 
+            //     console.log(response.body)
+            //     dispatch('actionSetUser', response.body.message)
+            // }, response => {
+            //     // error callback
+            //     console.log(response)
+            // })
+
+            
+        },
+
+        actionDoLogin: ({ dispatch }, payload) => {
             return http.post(http.options.root + '/auth/login', payload).then(resp => {
-                // console.log(resp.body)
+                console.log(resp.body.access_token)
                 dispatch('actionSetExpires', resp.body.expires_in)
                 dispatch('actionSetToken', resp.body.access_token)
+                dispatch('actionLoadSession', resp.body.access_token)
             })
         },
 
@@ -114,10 +165,19 @@ export default new Vuex.Store({
         },
 
         actionSetToken: ({ commit }, payload) => {
-            // storage.setLocalToken(payload)
+            storage.saveToken(payload)
             // storage.setHeaderToken(payload)
             commit(SET_TOKEN, payload)
+        },
+
+        actionSignOut: ({ dispatch }) => {
+            // storage.setHeaderToken('')
+            storage.removeToken()
+            dispatch('actionSetUser', {})
+            dispatch('actionSetToken', '')
+            dispatch('actionSetExpires', '')
         }
+          
     },
     modules: {
     }

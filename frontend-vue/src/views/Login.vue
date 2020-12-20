@@ -78,7 +78,8 @@ export default {
              */
             try {
                 await this.actionDoLogin(this.form)
-                // this.$router.push({ name: 'home' })
+                 alert('Redirecione para Home')
+                this.$router.push({ name: 'home' })
             } catch (error) {
                 // console.log(error);
                 alert(error.data ? error.data.message : 'Não foi possível fazer login')
