@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { http } from '@/config/http'
-import { storage } from '@/services'
+import { services, storage, setBearerToken } from '@/services'
+// console.log(typeof setBearerToken)
 
 Vue.use(Vuex)
 
@@ -114,40 +114,23 @@ export default new Vuex.Store({
             /* eslint-disable */
             return new Promise(async(resolve, reject) => {
                 try {
-                    const { data: { message } } = await http.get(http.options.root + '/auth/me', {
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    })
+                    setBearerToken(token)
+                    const { data: { message } } = await services.auth.loadSession()
                     dispatch('actionSetUser', message)
                     dispatch('actionSetToken', token)
                     storage.saveToken(token)
                     resolve()
                 } catch (err) {
                     dispatch('actionSignOut')
-                    alert('[128] actionLoadSession', err.message)
+                    console.log('[err]-actionLoadSession', err)
                     reject(err)
                 }
             })
-
-            // http.get(http.options.root + '/auth/me', {
-            //     headers: {
-            //         'Authorization': `Bearer ${token}`
-            //     }
-            // })
-            // .then(response => { 
-            //     console.log(response.body)
-            //     dispatch('actionSetUser', response.body.message)
-            // }, response => {
-            //     // error callback
-            //     console.log(response)
-            // })
-
             
         },
 
         actionDoLogin: ({ dispatch }, payload) => {
-            return http.post(http.options.root + '/auth/login', payload).then(resp => {
+            return services.auth.login(payload).then(resp => {
                 dispatch('actionSetExpires', resp.body.expires_in)
                 dispatch('actionSetToken', resp.body.access_token)
                 dispatch('actionLoadSession', resp.body.access_token)
