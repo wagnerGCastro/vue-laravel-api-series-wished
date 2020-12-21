@@ -20,7 +20,6 @@
 <script>
 /* eslint-disable */
 
-import { services  } from  '@/config/http'
 import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -81,7 +80,7 @@ export default {
              */
             try {
                 await this.actionDoLogin(this.form)
-                 alert('Redirecione para Home')
+                 lert('Redirecione para Home')
                 this.$router.push({ name: 'home' })
             } catch (error) {
                 // console.log(error);

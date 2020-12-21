@@ -36,4 +36,4 @@ const storageService = {
 
 }
 
-export default storageService
+export { storageService }
