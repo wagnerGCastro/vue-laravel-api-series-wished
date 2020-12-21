@@ -34,11 +34,14 @@ export default {
     created() {
         // Executa a Action e Chama Mutation e altera o State.User
         // this.actionSetUser({ name: 'Wagner G. de Castro', email: 'wagner@gmail.com' })
+        
     },
 
     mounted() {
         // console.log('token', this.$store.state)
         // console.log('user', this.$store.state.user)
+        // console.log('this.$logger', this.logs)
+
     },
 
     methods: {
