@@ -1,14 +1,16 @@
 import store from '@/store'
+// console.log(store)
 
 /* eslint-disable */
 export default async (to, from, next) => {
     document.title = `${to.name} - Series Wished`
+
     if (to.name !== 'login' && !store.getters['hasToken']) {
         try {
             await store.dispatch('actionCheckToken')
             next({ path: to.path })
         } catch (err) {
-            alert(err)
+            console.log('[error]', err)
             next({ name: 'login' })
         }
     } else if (to.name === 'logout' && store.getters['hasToken']) {

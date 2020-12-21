@@ -14,11 +14,7 @@ Vue.use(VueRouter)
  */ 
 
 const routes = [
-    {
-        path: '/',
-        name: 'home',
-        component: Home
-    },
+    { path: '/', name: 'home', component: Home },
     {
         path: '/vuex/basic',
         name: 'vuex-basic',
@@ -27,7 +23,7 @@ const routes = [
     {
         path: '/login',
         name: 'login',
-        component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
+        component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
     },
     {
         path: '/logout',
