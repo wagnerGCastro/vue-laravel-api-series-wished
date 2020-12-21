@@ -54,7 +54,6 @@ export default new Vuex.Store({
      */
     mutations: {
         [SET_TOKEN](state, token) {
-            console.log(token)
             state.token = token
         },
 
@@ -149,7 +148,6 @@ export default new Vuex.Store({
 
         actionDoLogin: ({ dispatch }, payload) => {
             return http.post(http.options.root + '/auth/login', payload).then(resp => {
-                console.log(resp.body.access_token)
                 dispatch('actionSetExpires', resp.body.expires_in)
                 dispatch('actionSetToken', resp.body.access_token)
                 dispatch('actionLoadSession', resp.body.access_token)

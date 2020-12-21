@@ -30,6 +30,8 @@ export default {
     components: {
         // HelloWorld
     },
+    mounted() {
+    },
     computed: {
         ...mapGetters([
             'getUser'
