@@ -56,14 +56,16 @@
 </template>
 
 <script>
-// import { mapState, mapMutations } from 'vuex'
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+// mapActions
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
+/* eslint-disable */
 export default {
     name: 'VuexBasic',
+
     data: function() {
         return {
-            todos: this.$store.getters.doneTodos
+            // todos: this.$store.getters['todo/doneTodos']
         }
     },
     components: {
@@ -73,54 +75,60 @@ export default {
         //
     },
     mounted: function() {
+        console.log('store ->', this.$store)
         console.log('todos', this.todos)
-
-        // console.log('store ->', this.$store)
-        console.log(this.$store.state.count) // -> 1
-        this.$store.commit('increment')
-        console.log(this.$store.state.count) // -> 1
+        console.log('getters ->', this.$store.getters)
+        console.log('state ->', this.$store.state)
+        console.log('store ->', this.$store.getters['todo/doneTodos'])
+        console.log('[state]-todo/todos ->', this.$store.state.todo.todos)
     },
     computed: {
+        /** 
+         * Recuperar Getters, MapActions ... com "namespaced:true"
+         * https://stackoverflow.com/questions/48400324/how-to-use-vuex-namespaced-getters-with-arguments
+         * https://stackoverflow.com/questions/47327388/vue-js-2-vuex-how-to-call-getters-from-modules-that-has-attribute-namespacedt
+         * https://stackoverflow.com/questions/55927452/vuex-dynamic-namespaces-in-binding-helpers-mapstate
+         */
+
 
         // Esta funçào foi subistituido pela debaixo  ...mapGetters
         // doneTodosCount() {
         //     return this.$store.state.todos.filter(todo => todo.done).length
         // },
 
-        // ...mapState({
-        //     counter: state => state.count,
-        //     todos: state => state.todos
-        // }),
+        ...mapState({
+            // todos (state) {
+            //     // console.log(state.todo.todos)
+            //     return state.todo.todos
+            // },
 
-        ...mapGetters([
-            'counter',
-            'todo',
-            'doneTodos',
-            'doneTodosCount'
-        ])
+            todos: (state) =>  state.todo.todos 
+        }),
+
+        ...mapGetters({
+            counter: 'count/counter',
+            doneTodos: 'todo/doneTodos',
+            doneTodosCount: 'todo/doneTodosCount'
+        })
     },
     methods: {
         /** Estas funcoes foram substituidas pelas debaixo */
         incrementar() {
-            console.log(this.$store.state.count)
-            this.$store.commit('increment')
-            console.log(this.$store.state.count)
+            this.$store.commit('count/increment')
         },
         decrementar() {
-            console.log(this.$store.state.count)
-            this.$store.commit('decrement')
-            console.log(this.$store.state.count)
+            this.$store.commit('count/decrement')
         },
 
-        ...mapMutations([
-            'decrement',
-            'increment'
-        ]),
+        ...mapMutations({
+            decrement: 'count/decrement',
+            increment: 'count/increment'
+        }),
 
-        ...mapActions([
-            'decrementAction',
-            'incrementAction'
-        ])
+        ...mapActions({
+            decrementAction: 'count/decrementAction',
+            incrementAction: 'count/incrementAction'
+        })
     }
 }
 </script>

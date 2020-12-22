@@ -33,9 +33,9 @@ export default {
     mounted() {
     },
     computed: {
-        ...mapGetters([
-            'getUser'
-        ])
+        ...mapGetters({
+            getUser: 'auth/getUser'
+        })
     }
 }
 </script>

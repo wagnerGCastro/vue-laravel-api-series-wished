@@ -3,8 +3,6 @@ import VueResource from 'vue-resource'
 import services from './services'
 import interceptors from './interceptors'
 
-console.log(interceptors)
-
 /* eslint-disable */
 
 Vue.use(VueResource)
