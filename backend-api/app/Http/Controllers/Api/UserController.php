@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\UsersSerie;
 use App\User;
 
 class UserController extends Controller
@@ -29,6 +30,24 @@ class UserController extends Controller
     {
         //
     }
+
+    /**
+     * Store a newly created resource in  table: users_serie
+     */
+    public function addSerieWatchlist(Request $request)
+    {
+        $data = $request->all();
+        $userSerieModel = new UsersSerie;
+        $userSerieModel->user_id = $request->user_id;
+        $userSerieModel->serie_id = $request->serie_id;
+        $userSerieModel->type = $request->type;
+        $userSerieModel->save();
+
+        return response()->json( $data,  200);
+    }
+
+
+    
 
     /**
      * Display the specified resource.

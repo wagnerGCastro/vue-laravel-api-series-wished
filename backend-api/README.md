@@ -81,6 +81,31 @@ Após ter gerado a chave, aparecerá no arquivo .env uma chave semelhante a esta
   http://localhost/api/v1/user             - GET,     Busca todos os usuários
 ```
 
+6 -) Rotas Series WhiteList:
+
+#### 
+``` txt
+  // Rotas públicas
+  http://localhost/api/auth/register                  - POST,    Registrar novo usuário
+  http://localhost/api/auth/login                     - POST,    Login para gerar token
+
+  // Rotas privadas
+
+  http://localhost/api/v1/serie/{id}                       - GET  
+  http://localhost/api/v1/serie/                           - POST  
+  http://localhost/api/v1/serie/{id}                       - PUT  
+  http://localhost/api/v1/serie/{id}                       - PATCH      
+  http://localhost/api/v1/serie/{id}                       - DELETE 
+
+  http://localhost/api/v1/serie/user/{id}/watchlist        - GET 
+  http://localhost/api/v1/serie/{id}/user/watchlist        - GET  
+  http://localhost/api/v1/serie/user/watchlist             - POST         
+  http://localhost/api/v1/serie/{id}/user/{id}/watchlist   - PUT  
+  http://localhost/api/v1/serie/{id}/user/{id}/watchlist   - PATCH  
+  http://localhost/api/v1/serie/{id}/user/{id}/watchlist   - DELETE                
+
+
+```
 Para realizar as operaçoes de Rotas privadas o usuário precisa enviar o token JWT, que não esteja expirado, caso contrário precisa novamente fazer login e gerar novo token.
 
 

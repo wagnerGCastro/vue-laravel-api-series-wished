@@ -38,4 +38,18 @@ Route::group(['middleware' => ['apiJwt']], function() {
     Route::put('v1/product/{id}', 'Api\ProductController@update')->name('product.update');
     Route::delete('v1/product/{id}', 'Api\ProductController@destroy')->name('product.destroy');
 
+    // Series 
+    Route::get('v1/series', 'Api\SerieController@store')->name('serie.index');
+    Route::post('v1/series', 'Api\SerieController@store')->name('serie.store');
+    Route::get('v1/series/{serie_id}', 'Api\SerieController@store')->name('serie.show');
+    Route::put('v1/series/{serie_id}', 'Api\SerieController@store')->name('serie.update');
+    Route::delete('v1/series/{serie_id}', 'Api\SerieController@store')->name('serie.destroy');
+    
+    // Series watchlist
+    Route::get('v1/series/users/{user_id}/watchlist', 'Api\SerieController@updateSerieWatchlist')->name('serie-watchlist.show');
+    Route::post('v1/series/users/watchlist', 'Api\SerieController@addSerieWatchlist')->name('serie-watchlist.store');
+    Route::put('v1/series/{serie_id}/users/{user_id}/watchlist', 'Api\SerieController@updateSerieWatchlist')->name('serie-watched.update');
+    // Route::patch('v1/series/{serie_id}/users/{user_id}/watchlist', 'Api\SerieController@updateSerieWatchlist')->name('serie-watched.update');
+    // Route::delete('v1/series/{serie_id}/users/{user_id}/watchlist', 'Api\SerieController@updateSerieWatchlist')->name('serie-watched.update');
+
 });
