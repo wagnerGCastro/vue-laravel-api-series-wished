@@ -1,12 +1,10 @@
-import { SET_USER, SET_TOKEN, SET_EXPIRES } from "@/store/mutation-types.js";
-
-export const Auth = {
+export const count = {
     namespaced: true,
 
     state: {
-        count: 0,
+        count: 0
     },
-  
+
     mutations: {
         increment: state => state.count++,
 
@@ -17,9 +15,9 @@ export const Auth = {
     },
 
     getters: {
-        counter: state => state.count,
+        counter: state => state.count
     },
-  
+
     actions: {
         ecrement: context => context.commit('decrement'),
         increment: ({ commit }) => commit('increment'),
@@ -33,7 +31,7 @@ export const Auth = {
                 //
                 commit('decrement', 4)
             }, 2000)
-        },
-    },
-  
+        }
+    }
+
 }

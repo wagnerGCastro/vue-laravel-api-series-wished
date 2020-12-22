@@ -1,4 +1,4 @@
-export const Todos = {
+export const todo = {
     namespaced: true,
 
     state: {
@@ -9,7 +9,7 @@ export const Todos = {
             { id: 4, text: 'Nome 4', done: false }
         ]
     },
-  
+
     mutations: {
         //
     },
@@ -21,11 +21,10 @@ export const Todos = {
 
         doneTodosCount(state) {
             return state.todos.filter(todo => todo.done).length
-        },
+        }
     },
-   
+
     actions: {
         //
     }
-  
 }

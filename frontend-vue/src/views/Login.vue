@@ -20,7 +20,7 @@
 <script>
 /* eslint-disable */
 
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
     data: () => ({
@@ -44,7 +44,11 @@ export default {
     },
 
     methods: {
-        ...mapActions(['actionSetUser','actionDoLogin']),
+        ...mapActions({
+            actionSetUser: 'auth/actionSetUser',
+            actionDoLogin: 'auth/actionDoLogin'
+        }),
+
         // async submit() {
         //   try {
         //     await this.ActionDoLogin(this.form);
@@ -80,7 +84,7 @@ export default {
              */
             try {
                 await this.actionDoLogin(this.form)
-                 lert('Redirecione para Home')
+                alert('Redirecione para Home')
                 this.$router.push({ name: 'home' })
             } catch (error) {
                 // console.log(error);
